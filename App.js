@@ -1,21 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
+import { configureStore } from '@reduxjs/toolkit';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { LogBox } from 'react-native';
+import { Provider } from 'react-redux';
+import { combineReducers } from 'redux';
+import MainStack from './navigation/MainStack';
+import AuthSlice from './store/slices/AuthSlice';
+import DashboardSlice from './store/slices/DashboardSlice';
+import logger from 'redux-logger'
+import thunk from 'redux-thunk'
 
 export default function App() {
+  const mainReducer = combineReducers({
+    root: AuthSlice,
+    dashboard: DashboardSlice
+  });
+  const store = configureStore({
+    reducer: mainReducer,
+    middleware: [thunk, logger]
+  })
+  LogBox.ignoreAllLogs();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <MainStack/>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
