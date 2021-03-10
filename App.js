@@ -16,7 +16,7 @@ export default function App() {
   });
   const store = configureStore({
     reducer: mainReducer,
-    middleware: [thunk, logger]
+    middleware: [thunk]
   })
   LogBox.ignoreAllLogs();
   return (

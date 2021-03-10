@@ -10,12 +10,16 @@ export const getDashboardData = createAsyncThunk(
   async(user_id, thunkAPI)=>{
     const formdata = new FormData();
     formdata.append("user_id", 2);
+
+    // const response = await axios({
+    //   method: 'post',
+    //   url: `${BASEURL}${Urls.DASHBOARD}`,
+    //   data: formdata
+    // });
     
-    const response = await axios.post(`${BASEURL}${Urls.DASHBOARD}`, formdata)
+    const response = await axios.post(`${BASEURL}${Urls.DASHBOARD}`, formdata )
 
-    console.log(response);
-
-    thunkAPI.dispatch(dashboardData(response));
+    thunkAPI.dispatch(dashboardData(response.data));
     return response.data;
   }
 )

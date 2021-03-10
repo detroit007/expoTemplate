@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack'
 import LoginScreen from '../screens/LoginScreen';
@@ -12,16 +12,21 @@ const MainStack = () =>{
     const [ loginUser, setLoginUser ] = useState(undefined)
 
     const {login} = loginState ;
+
+    const getData = useCallback(async()=>{
+        const data = await AsyncStorage.getItem("user_data");
+        const user = data != null ? JSON.parse(data) : null;
+        user === null ? setLoginUser(login) : setLoginUser(user.login)
+    }, [AsyncStorage])
     
-    // useEffect(()=>{
-        // const data = AsyncStorage.getItem("user_data");
-        // const user = data != null ? JSON.parse(data) : null;
-    // }, [])
+    useEffect(()=>{
+        getData()
+    }, [getData])
 
     return(
         <NavigationContainer>
             <Stack.Navigator>
-               { !login ?
+               { !loginUser ?
                 <Stack.Screen
                 options={{
                     headerShown: false

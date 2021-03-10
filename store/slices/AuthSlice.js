@@ -27,7 +27,8 @@ const AuthSlice = createSlice({
 
       if(action.payload.status === "1"){
         const user = new User(id, name, true)
-        // AsyncStorage.setItem('user_data', JSON.stringify(user));
+        const userData = JSON.stringify(user)
+        AsyncStorage.setItem('user_data', userData);
         return user  // mutate the state all you want with immer
         
       }

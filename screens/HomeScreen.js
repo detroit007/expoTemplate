@@ -14,7 +14,10 @@ const HomeScreen = ()=>{
     const dashboardState = useSelector(state => state.dashboard)
     const dispatch = useDispatch();
 
-    console.log(dashboardState, "datahai")
+    let categories = [];
+    for(const key in dashboardState ){
+        categories.push(dashboardState[key]);
+    }
 
     const getDashboardDataHandler = useCallback(async(id) =>{
         dispatch(getDashboardData(id))
@@ -23,6 +26,8 @@ const HomeScreen = ()=>{
     useEffect(()=>{
         getDashboardDataHandler(homeState.id);
     }, [getDashboardDataHandler, homeState])
+
+    console.log(categories);
     
 return(
     <KeyboardAvoidingView behavior='height'  style={{flex: 1}}>
